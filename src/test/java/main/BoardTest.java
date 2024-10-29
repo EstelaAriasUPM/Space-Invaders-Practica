@@ -3,6 +3,7 @@ package main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,20 @@ import javax.swing.Timer;
 
 class BoardTest {
 
-/* PRUEBAS UNITARIAS */
+    /* PRUEBAS UNITARIAS
+        Robust Weak Equivalence Class Testing: controlar entradas válidas y no válidas (null)
+            - Player
+            - Aliens
+            - Dimension
+            - Shot 
+            - Timer
+        Normal Strong Equivalence Class Testing: controlar únicamente entradas válidas
+            - Direction
+            - Deaths
+            - InGame
+            - ExplImg
+            - Message
+    */
     @Test
     @DisplayName("Debería obtener y establecer el jugador correctamente")
     void shouldGetandSetPlayer() {
@@ -29,12 +43,28 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("Debería obtener y establcer los aliens correctamente")
+    @DisplayName("Debería manejar correctamente un jugador nulo")
+    void shouldHandleNullPlayer() {
+        Board board = new Board();
+        board.setPlayer(null);
+        assertNull(board.getPlayer());
+    }
+
+    @Test
+    @DisplayName("Debería obtener y establecer los aliens correctamente")
     void shouldGetandSetAliens() {
         Board board = new Board();
         List<Alien> aliens = new ArrayList<>();
         board.setAliens(aliens);
         assertEquals(aliens, board.getAliens());
+    }
+
+    @Test
+    @DisplayName("Debería manejar correctamente una lista de aliens nula")
+    void shouldHandleNullAliens() {
+        Board board = new Board();
+        board.setAliens(null);
+        assertNull(board.getAliens());
     }
 
     @Test
@@ -47,12 +77,28 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("Debería estbalcer y obtener el disparo correctamente")
+    @DisplayName("Debería manejar correctamente una dimensión nula")
+    void shouldHandleNullDimension() {
+        Board board = new Board();
+        board.setD(null);
+        assertNull(board.getD());
+    }
+
+    @Test
+    @DisplayName("Debería establecer y obtener el disparo correctamente")
     void shouldGetandSetShot() {
         Board board = new Board();
         Shot shot = new Shot();
         board.setShot(shot);
         assertEquals(shot, board.getShot());
+    }
+
+    @Test
+    @DisplayName("Debería manejar correctamente un disparo nulo")
+    void shouldHandleNullShot() {
+        Board board = new Board();
+        board.setShot(null);
+        assertNull(board.getShot());
     }
 
     @Test
@@ -106,5 +152,13 @@ class BoardTest {
         Timer timer = new Timer(1000, null);
         board.setTimer(timer);
         assertEquals(timer, board.getTimer());
+    }
+
+    @Test
+    @DisplayName("Debería manejar correctamente un temporizador nulo")
+    void shouldHandleNullTimer() {
+        Board board = new Board();
+        board.setTimer(null);
+        assertNull(board.getTimer());
     }
 }

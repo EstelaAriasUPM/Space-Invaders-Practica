@@ -9,6 +9,13 @@ public class Player extends Sprite {
 
     private int width;
 
+    // Metodo añadido para poder testear
+    public int getWidth() {
+
+        return width;
+
+    }
+
     public Player() {
 
         initPlayer();
@@ -35,6 +42,7 @@ public class Player extends Sprite {
      * Mueve la posición del jugador a la izquierda o a la derecha.
      * Si el jugador ha alcanzado el borde de la pantalla y se intenta mover fuera de la pantalla, lo mantendrá quieto en el borde.
      * */
+    //ESTE METODO ESTÁ MAL
     public void act() {
 
         x += dx;
@@ -56,6 +64,7 @@ public class Player extends Sprite {
      * Cualquier otra tecla de movimiento no produce acción
      * @param e tecla presionada
      * */
+    //ESTE METODO ESTÁ MAL
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();

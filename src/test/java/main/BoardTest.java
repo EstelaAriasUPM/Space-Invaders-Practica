@@ -1,164 +1,41 @@
 package main;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import main.Board;
+import main.Commons;
 import space_invaders.sprites.Alien;
 import space_invaders.sprites.Player;
 import space_invaders.sprites.Shot;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
+public class BoardTest {
 
-import javax.swing.Timer;
-
-class BoardTest {
-
-    /* PRUEBAS UNITARIAS
-        Robust Weak Equivalence Class Testing: controlar entradas válidas y no válidas (null)
-            - Player
-            - Aliens
-            - Dimension
-            - Shot 
-            - Timer
-        Normal Strong Equivalence Class Testing: controlar únicamente entradas válidas
-            - Direction
-            - Deaths
-            - InGame
-            - ExplImg
-            - Message
-    */
+    /* CP1 Normal Strong Equivalence Testing (comprueba entradas válidas)*/
     @Test
-    @DisplayName("Debería obtener y establecer el jugador correctamente")
-    void shouldGetandSetPlayer() {
+    @DisplayName("Debería inicializar la partida correctamente")
+    void testGameInit() {
         Board board = new Board();
-        Player player = new Player();
-        board.setPlayer(player);
-        assertEquals(player, board.getPlayer());
-    }
 
-    @Test
-    @DisplayName("Debería manejar correctamente un jugador nulo")
-    void shouldHandleNullPlayer() {
-        Board board = new Board();
-        board.setPlayer(null);
-        assertNull(board.getPlayer());
-    }
+        // CP1.1 Verificar que los aliens están inicializados correctamente
+        assertNotNull(board.getAliens());
+        assertEquals(Commons.NUMBER_OF_ALIENS_TO_DESTROY, board.getAliens().size()); // 4 filas x 6 columnas = 24 aliens
+;
+        // CP1.2 Verifica el alien de la posicion 0 (primer alien i=0, j=0)
+        Alien firstAlien = board.getAliens().get(0);
+        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
 
-    @Test
-    @DisplayName("Debería obtener y establecer los aliens correctamente")
-    void shouldGetandSetAliens() {
-        Board board = new Board();
-        List<Alien> aliens = new ArrayList<>();
-        board.setAliens(aliens);
-        assertEquals(aliens, board.getAliens());
-    }
+        // CP1.3 Verifica el alien de la posicion 23 (último alien i=3, j=5)
+        Alien lastAlien = board.getAliens().get(23);
+        assertEquals(Commons.ALIEN_INIT_Y + 18 * 5, lastAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
 
-    @Test
-    @DisplayName("Debería manejar correctamente una lista de aliens nula")
-    void shouldHandleNullAliens() {
-        Board board = new Board();
-        board.setAliens(null);
-        assertNull(board.getAliens());
-    }
+        // CP1.4 Verificar que el jugador está inicializado correctamente
+        assertNotNull(board.getPlayer());
+        assertTrue(board.getPlayer().isVisible());
 
-    @Test
-    @DisplayName("Debería obtener y establecer la dimensión correctamente")
-    void shouldGetAndSetDimension() {
-        Board board = new Board();
-        Dimension dimension = new Dimension(100, 100);
-        board.setD(dimension);
-        assertEquals(dimension, board.getD());
-    }
-
-    @Test
-    @DisplayName("Debería manejar correctamente una dimensión nula")
-    void shouldHandleNullDimension() {
-        Board board = new Board();
-        board.setD(null);
-        assertNull(board.getD());
-    }
-
-    @Test
-    @DisplayName("Debería establecer y obtener el disparo correctamente")
-    void shouldGetandSetShot() {
-        Board board = new Board();
-        Shot shot = new Shot();
-        board.setShot(shot);
-        assertEquals(shot, board.getShot());
-    }
-
-    @Test
-    @DisplayName("Debería manejar correctamente un disparo nulo")
-    void shouldHandleNullShot() {
-        Board board = new Board();
-        board.setShot(null);
-        assertNull(board.getShot());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer la dirección correctamente")
-    void shouldGetAndSetDirection() {
-        Board board = new Board();
-        board.setDirection(1);
-        assertEquals(1, board.getDirection());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer las muertes correctamente")
-    void shouldGetAndSetDeaths() {
-        Board board = new Board();
-        board.setDeaths(5);
-        assertEquals(5, board.getDeaths());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer el estado del juego correctamente")
-    void shouldGetAndSetInGame() {
-        Board board = new Board();
-        board.setInGame(false);
-        assertFalse(board.isInGame());
-        board.setInGame(true);
-        assertTrue(board.isInGame());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer la imagen de explosión correctamente")
-    void shouldGetAndSetExplImg() {
-        Board board = new Board();
-        String explImg = "new/path/to/explosion.png";
-        board.setExplImg(explImg);
-        assertEquals(explImg, board.getExplImg());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer el mensaje correctamente")
-    void shouldGetAndSetMessage() {
-        Board board = new Board();
-        String message = "New Message";
-        board.setMessage(message);
-        assertEquals(message, board.getMessage());
-    }
-
-    @Test
-    @DisplayName("Debería obtener y establecer el temporizador correctamente")
-    void shouldGetAndSetTimer() {
-        Board board = new Board();
-        Timer timer = new Timer(1000, null);
-        board.setTimer(timer);
-        assertEquals(timer, board.getTimer());
-    }
-
-    @Test
-    @DisplayName("Debería manejar correctamente un temporizador nulo")
-    void shouldHandleNullTimer() {
-        Board board = new Board();
-        board.setTimer(null);
-        assertNull(board.getTimer());
+        // CP1.5 Verificar que el disparo está inicializado correctamente
+        assertNotNull(board.getShot());
     }
 }

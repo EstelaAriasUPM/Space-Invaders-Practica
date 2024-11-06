@@ -1,5 +1,6 @@
 package space_invaders.sprites;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import main.Commons;
@@ -8,19 +9,36 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
 
+    //Inicializamos el objeto player
+	Player player;
+	
+	@BeforeEach
+	public void init() {
+		player = new Player();
+	}
+	
+
     @Test
-    @DisplayName("Debería inicializar el jugador correctamente")
+    @DisplayName("Debería inicializar el jugador correctamente con valores por defecto")
     public void testPlayerInitialization() {
-        Player player = new Player();
         assertEquals(270, player.getX());
         assertEquals(280, player.getY());
         assertNotNull(player.getImage());
     }
 
     @Test
+    @DisplayName("Debería inicializar un jugador correctamente con entradas inválidas")
+    public void testPlayerInitializationInvalid() {
+        player.setX(-100);
+        player.setY(-100);
+        assertEquals(0, player.getX());
+        assertEquals(0, player.getY());
+        assertNotNull(player.getImage());
+    }
+
+    @Test
     @DisplayName("Debería mover el jugador a la izquierda")
     public void testPlayerMoveLeft() {
-        Player player = new Player();
         KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
         player.keyPressed(leftKeyPressed);
         player.act();
@@ -30,7 +48,6 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería mover el jugador a la derecha")
     public void testPlayerMoveRight() {
-        Player player = new Player();
         KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
         player.keyPressed(rightKeyPressed);
         player.act();
@@ -40,7 +57,6 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería detener el movimiento del jugador hacia la izquierda")
     public void testPlayerStopMoveLeft() {
-        Player player = new Player();
         KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
         player.keyPressed(leftKeyPressed);
         player.act();
@@ -53,7 +69,6 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería detener el movimiento del jugador hacia la derecha")
     public void testPlayerStopMoveRight() {
-        Player player = new Player();
         KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
         player.keyPressed(rightKeyPressed);
         player.act();
@@ -66,7 +81,6 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería mover el jugador al límite izquierdo")
     public void testPlayerMoveLeftBoundary() {
-        Player player = new Player();
         player.setX(1);
         KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
         player.keyPressed(leftKeyPressed);
@@ -77,11 +91,31 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería mover el jugador al límite derecho")
     public void testPlayerMoveRightBoundary() {
-        Player player = new Player();
         player.setX(Commons.BOARD_WIDTH - player.getWidth());
         KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
         player.keyPressed(rightKeyPressed);
         player.act();
         assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
+    }
+
+    @Test
+    @DisplayName("No debería mover el jugador con las teclas de arriba y abajo")
+    public void testPlayerNoMoveUpDown() {
+        int initialX = player.getX();
+        int initialY = player.getY();
+
+        // Simular la tecla de flecha hacia arriba presionada
+        KeyEvent upKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, 'U');
+        player.keyPressed(upKeyPressed);
+        player.act();
+        assertEquals(initialX, player.getX());
+        assertEquals(initialY, player.getY());
+
+        // Simular la tecla de flecha hacia abajo presionada
+        KeyEvent downKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, 'D');
+        player.keyPressed(downKeyPressed);
+        player.act();
+        assertEquals(initialX, player.getX());
+        assertEquals(initialY, player.getY());
     }
 }

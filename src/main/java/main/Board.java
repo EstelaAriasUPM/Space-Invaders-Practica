@@ -56,7 +56,7 @@ public class Board extends JPanel {
     public Board() {
 
         initBoard();
-        gameInit();
+        gameInit(); //Duplicicdad de código (?)
     }
     /**
      * Inicializa un nuevo tablero con las dimensiones predefinidas, le asigna un fondo de color negro, inicializa el contador de juego e inicia la partida.
@@ -389,8 +389,8 @@ public class Board extends JPanel {
                 }
             }
         }
-
     }
+
     /**
      * FUNCIÓN RELACIONADA CON LA GESTIÓN DE INTERFAZ. NO ES NECESARIO PROBARLA.
      * */

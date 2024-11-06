@@ -42,6 +42,7 @@ public class Player extends Sprite {
      * Mueve la posición del jugador a la izquierda o a la derecha.
      * Si el jugador ha alcanzado el borde de la pantalla y se intenta mover fuera de la pantalla, lo mantendrá quieto en el borde.
      * */
+
     //ESTE METODO ESTÁ MAL
     public void act() {
 

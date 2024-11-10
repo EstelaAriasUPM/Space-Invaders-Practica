@@ -27,8 +27,8 @@ public class PlayerTest {
     }
 
     @Test
-    @DisplayName("Debería inicializar un jugador correctamente con entradas inválidas")
-    public void testPlayerInitializationInvalid() {
+    @DisplayName("Debería inicializar un jugador correctamente con entradas inválidas inferiores")
+    public void testPlayerInitializationInvalidLower() {
         player.setX(-100);
         player.setY(-100);
         assertEquals(0, player.getX());
@@ -37,10 +37,19 @@ public class PlayerTest {
     }
 
     @Test
+    @DisplayName("Debería inicializar un jugador correctamente con entradas inválidas superiores")
+    public void testPlayerInitializationInvalidUpper() {
+        player.setX(400);
+        player.setY(400);
+        assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
+        assertEquals(Commons.BOARD_HEIGHT, player.getY());
+        assertNotNull(player.getImage());
+    }
+
+    @Test
     @DisplayName("Debería mover el jugador a la izquierda")
     public void testPlayerMoveLeft() {
-        KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
-        player.keyPressed(leftKeyPressed);
+        player.setdx(-2);
         player.act();
         assertEquals(268, player.getX());
     }
@@ -48,10 +57,43 @@ public class PlayerTest {
     @Test
     @DisplayName("Debería mover el jugador a la derecha")
     public void testPlayerMoveRight() {
-        KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
-        player.keyPressed(rightKeyPressed);
+        player.setdx(2);
         player.act();
         assertEquals(272, player.getX());
+    }
+
+    @Test
+    @DisplayName("Debería quedarse en el límite izquierdo de la pantalla")
+    public void testPlayerMoveLeftBoundary() {
+        player.setX(0);
+        player.setdx(-2);
+        player.act();
+        assertEquals(0, player.getX());
+    }
+
+    @Test
+    @DisplayName("Debería quedarse en el límite derecho de la pantalla")
+    public void testPlayerMoveRightBoundary() {
+        player.setX(Commons.BOARD_WIDTH - player.getWidth()); //El límite derecho BOARD_WIDTH - player.width que es 343
+        player.setdx(2);
+        player.act();
+        assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
+    }
+
+    @Test
+    @DisplayName("Debería pulsar la tecla izquierda")
+    public void testPlayerPressedKeyLeft() {
+        KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
+        player.keyPressed(leftKeyPressed);
+        assertEquals(-2, player.getdx());
+    }
+
+    @Test
+    @DisplayName("Debería pulsar la tecla derecha")
+    public void testPlayerPressedKeyRight() {
+        KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
+        player.keyPressed(rightKeyPressed);
+        assertEquals(2, player.getdx());
     }
 
     @Test
@@ -63,7 +105,7 @@ public class PlayerTest {
         KeyEvent leftKeyReleased = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
         player.keyReleased(leftKeyReleased);
         player.act();
-        assertEquals(268, player.getX());
+        assertEquals(0, player.getdx());
     }
 
     @Test
@@ -71,31 +113,9 @@ public class PlayerTest {
     public void testPlayerStopMoveRight() {
         KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
         player.keyPressed(rightKeyPressed);
-        player.act();
         KeyEvent rightKeyReleased = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
         player.keyReleased(rightKeyReleased);
-        player.act();
-        assertEquals(272, player.getX());
-    }
-
-    @Test
-    @DisplayName("Debería mover el jugador al límite izquierdo")
-    public void testPlayerMoveLeftBoundary() {
-        player.setX(1);
-        KeyEvent leftKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, 'L');
-        player.keyPressed(leftKeyPressed);
-        player.act();
-        assertEquals(0, player.getX());
-    }
-
-    @Test
-    @DisplayName("Debería mover el jugador al límite derecho")
-    public void testPlayerMoveRightBoundary() {
-        player.setX(Commons.BOARD_WIDTH - player.getWidth());
-        KeyEvent rightKeyPressed = new KeyEvent(new java.awt.Component() {}, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 'R');
-        player.keyPressed(rightKeyPressed);
-        player.act();
-        assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
+        assertEquals(0, player.getdx());
     }
 
     @Test

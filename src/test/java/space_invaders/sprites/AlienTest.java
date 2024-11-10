@@ -32,11 +32,27 @@ public class AlienTest {
     }
 
     @Test
-    @DisplayName("Debería mover el alien en la dirección indicada")
-    public void testAlienAct() {
+    @DisplayName("Debería mover el alien a la derecha")
+    public void testAlienActRight() {
         Alien alien = new Alien(50, 100);
         alien.act(10);
-        assertEquals(10 + Commons.ALIEN_WIDTH, alien.getX());
+        assertEquals(60, alien.getX());
+    }
+
+    @Test
+    @DisplayName("Debería mover el alien a la izquierda")
+    public void testAlienActLeft() {
+        Alien alien = new Alien(50, 100);
+        alien.act(-10);
+        assertEquals(40, alien.getX());
+    }
+
+    @Test
+    @DisplayName("No debería mover el alien")
+    public void testAlienActNone() {
+        Alien alien = new Alien(50, 100);
+        alien.act(0);
+        assertEquals(50, alien.getX());
     }
 
     @Test
@@ -51,11 +67,25 @@ public class AlienTest {
     }
 
     @Test
-    @DisplayName("Debería cambiar el estado de destrucción de la bomba")
-    public void testBombSetDestroyed() {
-        Alien alien = new Alien(50, 100);
+    @DisplayName("Debería inicializar una bomba asociada al alien que empezó por debajo del limite")
+    public void testBombInitializationLower() {
+        Alien alien = new Alien(-10, -20);
         Alien.Bomb bomb = alien.getBomb();
-        bomb.setDestroyed(false);
-        assertFalse(bomb.isDestroyed());
+        assertNotNull(bomb);
+        assertEquals(0, bomb.getX());
+        assertEquals(0, bomb.getY());
+        assertTrue(bomb.isDestroyed());
     }
+
+    @Test
+    @DisplayName("Debería inicializar una bomba asociada al alien que empezó por encima del límite")
+    public void testBombInitializationUpper() {
+        Alien alien = new Alien(368, 360);
+        Alien.Bomb bomb = alien.getBomb();
+        assertNotNull(bomb);
+        assertEquals(358, bomb.getX());
+        assertEquals(350, bomb.getY());
+        assertTrue(bomb.isDestroyed());
+    }
+
 }

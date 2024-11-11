@@ -228,7 +228,7 @@ public class Board extends JPanel {
      * Si se han destruido todos los alienígenas, el juego finaliza la partida.
      * Si no se han destruido, actualiza el estado del juego.
      * */
-    private void update() {
+    public void update() {
 
         if (deaths == Commons.CHANCE) {
             inGame = false;
@@ -245,7 +245,7 @@ public class Board extends JPanel {
      * Actualiza el estado de los disparos a los alienígenas.
      * Comprueba la posición del alien y del disparo realizado y, si coinciden, activa la animación de explosión del alienígena, lo elimina del tablero y aumenta en uno el contador de alienígenas derribados (deaths) en uno.
      * */
-    private void update_shots() {
+    public void update_shots() {
         if (this.shot.isVisible()) {
 
             int shotX = this.shot.getX();
@@ -286,7 +286,7 @@ public class Board extends JPanel {
      * Mueve el alienígena hacia la izquierda o a la derecha, en función de la dirección indicada (direction=1 izquierda, direction=-1 derecha), y baja todos los aliens una posición hacia abajo (Commons.GO_DOWN)
      * Si los alienígenas alcanzan el borde inferior del tablero, el juego termina y se nos muestra por pantalla el mensaje "Invasion!"
      * */
-    private void update_aliens(){
+    public void update_aliens(){
         for (Alien alien : this.aliens) {
 
             int x = alien.getX();
@@ -345,7 +345,7 @@ public class Board extends JPanel {
      * Si la bomba ha llegado al suelo, se destruye y desaparece
      * Si el jugador ha sido alcanzado por una bomba, el jugador cambiará su estado "setDying" a verdadero, y su imagen se cambiará por la animación de explosión
      * */
-    private void update_bomb(){
+    public void update_bomb(){
         var generator = new Random();
 
         for (Alien alien : this.aliens) {

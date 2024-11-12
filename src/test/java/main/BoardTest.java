@@ -63,42 +63,87 @@ public class BoardTest {
 
 
     @Test
-@DisplayName("Debería actualizar el estado del juego correctamente")
-void testUpdateGameState() {
-    Board board = new Board();
+    @DisplayName("Debería actualizar el estado del juego correctamente")
+    void testUpdateGameState() {
+        Board board = new Board();
 
-    // Simular una actualización del juego
-    board.update();
+        // Simular una actualización del juego
+        board.update();
 
-    // Verificar que el jugador se ha movido (ERROR)
-    int initialX = board.getPlayer().getX();
-    board.getPlayer().setX(initialX + 1);
-    board.update();
-    assertEquals(initialX + 1, board.getPlayer().getX());
+        // Verificar que el jugador se ha movido (ERROR)
+        int initialX = board.getPlayer().getX();
+        board.getPlayer().setX(initialX + 1);
+        board.update();
+        assertEquals(initialX + 1, board.getPlayer().getX());
 
-    // Verificar que los aliens se han movido (ERROR)
-    int initialAlienX = board.getAliens().get(0).getX(); 
-    board.getAliens().get(0).setX(initialAlienX + 1);
-    board.update();
-    assertEquals(initialAlienX + 1, board.getAliens().get(0).getX());
+        // Verificar que los aliens se han movido (ERROR)
+        int initialAlienX = board.getAliens().get(0).getX(); 
+        board.getAliens().get(0).setX(initialAlienX + 1);
+        board.update();
+        assertEquals(initialAlienX + 1, board.getAliens().get(0).getX());
 
-    // Verificar que el disparo se ha movido
-    int initialShotY = board.getShot().getY();
-    board.getShot().setY(initialShotY - 1);
-    board.update();
-    assertEquals(initialShotY - 1, board.getShot().getY());
+        // Verificar que el disparo se ha movido
+        int initialShotY = board.getShot().getY();
+        board.getShot().setY(initialShotY - 1);
+        board.update();
+        assertEquals(initialShotY - 1, board.getShot().getY());
 
-    // Verificar que la bomba se ha movido
-    Alien alien = board.getAliens().get(0);
-    Alien.Bomb bomb = alien.getBomb();
-    bomb.setDestroyed(false);
-    bomb.setX(alien.getX());
-    bomb.setY(alien.getY());
-    board.update();
-    assertEquals(alien.getY() + 1, bomb.getY());
-}
+        // Verificar que la bomba se ha movido
+        Alien alien = board.getAliens().get(0);
+        Alien.Bomb bomb = alien.getBomb();
+        bomb.setDestroyed(false);
+        bomb.setX(alien.getX());
+        bomb.setY(alien.getY());
+        board.update();
+        assertEquals(alien.getY() + 1, bomb.getY());
+    }
 
-     @Test
+    @Test
+    @DisplayName("Debería actualizar el estado del disparo correctamente cuando impacta a un alien")
+    void testShotHitsAlien() {
+        Board board = new Board();
+
+        // Simular un disparo que impacta a un alien
+        Alien alien = board.getAliens().get(0);
+        Shot shot = board.getShot();
+        shot.setVisible(true);
+        shot.setX(alien.getX());
+        shot.setY(alien.getY());
+
+        // Actualizar el estado de los disparos
+        board.update_shots();
+
+        // Verificar que el alien ha sido impactado
+        Image explImg = new ImageIcon("src/main/resources/images/explosion.png").getImage();
+        assertEquals(explImg, alien.getImage()); 
+        assertTrue(alien.isDying()); 
+        assertFalse(shot.isVisible());
+        assertEquals(1, board.getDeaths()); // ERROR: Las muertes se decrementan 
+    }
+
+    @Test
+    @DisplayName("Debería actualizar el estado del disparo correctamente cuando no impacta a ningún alien")
+    void testShotMissesAlien() {
+        Board board = new Board();
+
+        // Simular un disparo que no impacta a ningún alien
+        Shot shot = board.getShot();
+        shot.setVisible(true);
+        int initialY = shot.getY();
+        shot.setY(initialY - 1);
+
+        // Verificar la posición inicial del disparo
+        assertEquals(initialY - 1, shot.getY());
+
+        // Actualizar el estado de los disparos
+        board.update_shots();
+
+        // ERROR: El disparo no se ha movido y no esta visible
+        assertEquals(initialY - 1 - 4, shot.getY());
+        assertTrue(shot.isVisible());
+    }
+
+    @Test
     @DisplayName("Debería actualizar el estado de las bombas correctamente")
     void testUpdateBomb() {
         Board board = new Board();
@@ -115,6 +160,22 @@ void testUpdateGameState() {
 
         // Verificar que la bomba se ha movido
         assertEquals(alien.getY() + 1, bomb.getY());
+    }
+
+    @Test
+    @DisplayName("Debería actualizar el estado del disparo correctamente cuando sale del tablero")
+    void testShotLeavesBoard() {
+        Board board = new Board();
+
+        // Simular un disparo que sale del tablero
+        board.getShot().setVisible(true);
+        board.getShot().setY(-1);
+
+        // Actualizar el estado de los disparos
+        board.update_shots();
+
+        // Verificar que el disparo ha desaparecido
+        assertFalse(board.getShot().isVisible());
     }
 
     @Test

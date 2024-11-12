@@ -216,8 +216,7 @@ public class BoardTest {
         Image explImg = new ImageIcon("src/main/resources/images/explosion.png").getImage();
         assertEquals(explImg, board.getPlayer().getImage());
 
-
         // Verificar que el jugador está muriendo (ERROR)
         assertTrue(board.getPlayer().isDying());
     }
-    }
+}

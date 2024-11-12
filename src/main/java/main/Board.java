@@ -374,7 +374,7 @@ public class Board extends JPanel {
 
                     var ii = new ImageIcon(explImg);
                     this.player.setImage(ii.getImage());
-                    this.player.setDying(false);
+                    this.player.setDying(false); //ERROR: Debería ser true
                     bomb.setDestroyed(true);
                 }
             }

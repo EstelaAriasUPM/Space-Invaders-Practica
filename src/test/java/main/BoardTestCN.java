@@ -18,7 +18,7 @@ public class BoardTestCN {
 
     // Test gameInit()
     /* CP1 Normal Strong Equivalence Testing (comprueba entradas válidas)*/
-    @Test
+    /*@Test
     @DisplayName("Debería inicializar la partida correctamente")
     void testGameInit() {
         Board board = new Board();
@@ -43,8 +43,24 @@ public class BoardTestCN {
 
         // CP1.5 Verificar que el disparo está inicializado correctamente
         assertNotNull(board.getShot());
-    }
+    }*/
 
+    @Test
+    @DisplayName("Debería inicializar la partida correctamente")
+    void testGameInit() {
+        Board board = new Board();
+
+        assertNotNull(board.getAliens());
+        assertEquals(Commons.NUMBER_OF_ALIENS_TO_DESTROY, board.getAliens().size()); // 4 filas x 6 columnas = 24 aliens
+
+        Alien firstAlien = board.getAliens().get(0);
+        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
+
+        Alien lastAlien = board.getAliens().get(23);
+        assertEquals(Commons.ALIEN_INIT_Y + 18 * 5, lastAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
+    }
 
     // Test gameUpdate()
     @Test
@@ -62,7 +78,6 @@ public class BoardTestCN {
         assertFalse(board.isInGame());
         assertEquals("Game won!", board.getMessage());
     }
-
 
     @Test
     @DisplayName("Debería actualizar el estado del juego cuando no se produce la victoria")

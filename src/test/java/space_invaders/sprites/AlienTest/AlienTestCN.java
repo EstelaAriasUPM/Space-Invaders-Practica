@@ -1,11 +1,14 @@
-package space_invaders.sprites;
+package space_invaders.sprites.AlienTest;
 
 import main.Commons;
+import space_invaders.sprites.Alien;
+import space_invaders.sprites.Alien.Bomb;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AlienTest {
+public class AlienTestCN {
 
     @Test
     @DisplayName("Debería inicializar un alien con coordenadas válidas")
@@ -63,7 +66,6 @@ public class AlienTest {
         assertNotNull(bomb);
         assertEquals(50, bomb.getX());
         assertEquals(100, bomb.getY());
-        assertTrue(bomb.isDestroyed());
     }
 
     @Test

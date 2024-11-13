@@ -92,7 +92,7 @@ public class Alien extends Sprite {
          * */
         private void initBomb(int x, int y) {
 
-            setDestroyed(true);
+            setDestroyed(true); //Rarete
 
             if (x<= Commons.BOARD_WIDTH && y<= Commons.BOARD_HEIGHT) {
                 this.x += x;

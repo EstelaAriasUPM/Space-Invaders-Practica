@@ -7,7 +7,7 @@ import main.Commons;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ShotTest {
+public class ShotTestCN {
 
     @Test
     @DisplayName("Debería inicializar un disparo con coordenadas válidas")

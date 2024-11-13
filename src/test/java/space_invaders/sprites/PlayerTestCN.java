@@ -7,7 +7,7 @@ import main.Commons;
 import java.awt.event.KeyEvent;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerTest {
+public class PlayerTestCN {
 
     //Inicializamos el objeto player
 	Player player;

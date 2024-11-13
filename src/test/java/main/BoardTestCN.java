@@ -14,7 +14,7 @@ import space_invaders.sprites.Alien;
 import space_invaders.sprites.Player;
 import space_invaders.sprites.Shot;
 
-public class BoardTest {
+public class BoardTestCN {
 
     /* CP1 Normal Strong Equivalence Testing (comprueba entradas válidas)*/
     @Test
@@ -141,6 +141,84 @@ public class BoardTest {
         // ERROR: El disparo no se ha movido y no esta visible
         assertEquals(initialY - 1 - 4, shot.getY());
         assertTrue(shot.isVisible());
+    }
+
+    @Test
+    @DisplayName("Debería mover los aliens hacia la izquierda y hacia abajo cuando alcanzan el borde derecho")
+    void testAliensMoveLeftAndDown() {
+        Board board = new Board();
+
+        // Simular que los aliens alcanzan el borde derecho
+        for (Alien alien : board.getAliens()) {
+            alien.setX(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT);
+        }
+
+        // Actualizar el estado de los aliens
+        board.update_aliens();
+
+        // Verificar que los aliens se han movido hacia abajo y cambiado de dirección
+        for (Alien alien : board.getAliens()) {
+            assertEquals(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT, alien.getX());
+            assertEquals(Commons.ALIEN_INIT_Y + Commons.GO_DOWN, alien.getY());
+        }
+        assertEquals(0, board.getDirection());
+    }
+
+    @Test
+    @DisplayName("Debería mover los aliens hacia la derecha y hacia abajo cuando alcanzan el borde izquierdo")
+    void testAliensMoveRightAndDown() {
+        Board board = new Board();
+
+        // Simular que los aliens alcanzan el borde izquierdo
+        for (Alien alien : board.getAliens()) {
+            alien.setX(Commons.BORDER_LEFT);
+        }
+
+        // Actualizar el estado de los aliens
+        board.update_aliens();
+
+        // Verificar que los aliens se han movido hacia abajo y cambiado de dirección
+        for (Alien alien : board.getAliens()) {
+            assertEquals(Commons.BORDER_LEFT, alien.getX());
+            assertEquals(Commons.ALIEN_INIT_Y + Commons.GO_DOWN, alien.getY());
+        }
+        assertEquals(1, board.getDirection());
+    }
+
+    @Test
+    @DisplayName("Debería terminar el juego y mostrar el mensaje 'Invasion!' cuando un alien alcanza el borde inferior")
+    void testAlienReachesBottom() {
+        Board board = new Board();
+
+        // Simular que un alien alcanza el borde inferior
+        Alien alien = board.getAliens().get(0);
+        alien.setY(Commons.GROUND - Commons.ALIEN_HEIGHT + 1);
+
+        // Actualizar el estado de los aliens
+        board.update_aliens();
+
+        // Verificar que el juego ha terminado y muestra el mensaje "Invasion!"
+        assertFalse(board.isInGame());
+        assertEquals("Invasion!", board.getMessage());
+    }
+
+    @Test
+    @DisplayName("Debería mover los aliens en la dirección correcta cuando no alcanzan los bordes")
+    void testAliensMoveContinuously() {
+        Board board = new Board();
+
+        // Simular que los aliens están en el medio del tablero
+        for (Alien alien : board.getAliens()) {
+            alien.setX(Commons.BOARD_WIDTH / 2);
+        }
+
+        // Actualizar el estado de los aliens
+        board.update_aliens();
+
+        // Verificar que los aliens se han movido en la dirección correcta
+        for (Alien alien : board.getAliens()) {
+            assertEquals(Commons.BOARD_WIDTH / 2 + board.getDirection(), alien.getX());
+        }
     }
 
     @Test

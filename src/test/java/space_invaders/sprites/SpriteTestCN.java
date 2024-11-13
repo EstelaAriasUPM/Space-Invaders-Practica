@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 
-public class SpriteTest {
+public class SpriteTestCN {
 
     @Test
     @DisplayName("Debería inicializar un sprite como visible")

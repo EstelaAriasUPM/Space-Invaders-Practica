@@ -1,6 +1,9 @@
-package space_invaders.sprites;
+package space_invaders.sprites.AlienTest;
 
 import main.Commons;
+import space_invaders.sprites.Alien;
+import space_invaders.sprites.Alien.Bomb;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

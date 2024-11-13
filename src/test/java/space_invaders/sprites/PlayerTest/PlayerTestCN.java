@@ -1,9 +1,11 @@
-package space_invaders.sprites;
+package space_invaders.sprites.PlayerTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import main.Commons;
+import space_invaders.sprites.Player;
+
 import java.awt.event.KeyEvent;
 import static org.junit.jupiter.api.Assertions.*;
 

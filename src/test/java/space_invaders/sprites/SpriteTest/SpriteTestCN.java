@@ -1,7 +1,10 @@
-package space_invaders.sprites;
+package space_invaders.sprites.SpriteTest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import space_invaders.sprites.Sprite;
+
 import static org.junit.jupiter.api.Assertions.*;
 import javax.swing.ImageIcon;
 import java.awt.Image;

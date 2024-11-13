@@ -16,6 +16,7 @@ import space_invaders.sprites.Shot;
 
 public class BoardTestCN {
 
+    // Test gameInit()
     /* CP1 Normal Strong Equivalence Testing (comprueba entradas válidas)*/
     @Test
     @DisplayName("Debería inicializar la partida correctamente")
@@ -45,6 +46,7 @@ public class BoardTestCN {
     }
 
 
+    // Test gameUpdate()
     @Test
     @DisplayName("Debería finalizar el juego cuando se han destruido todos los alienígenas")
     void testGameWon() {
@@ -63,39 +65,37 @@ public class BoardTestCN {
 
 
     @Test
-    @DisplayName("Debería actualizar el estado del juego correctamente")
-    void testUpdateGameState() {
+    @DisplayName("Debería actualizar el estado del juego cuando no se produce la victoria")
+    void testUpdateGameStateWhenNoVictory() {
         Board board = new Board();
 
-        // Simular una actualización del juego
-        board.update();
+        // Asegurarse de que no se ha alcanzado la condición de victoria
+        board.setDeaths(0); // Asegurarse de que deaths no es igual a Commons.CHANCE
 
-        // Verificar que el jugador se ha movido (ERROR)
-        int initialX = board.getPlayer().getX();
-        board.getPlayer().setX(initialX + 1);
-        board.update();
-        assertEquals(initialX + 1, board.getPlayer().getX());
-
-        // Verificar que los aliens se han movido (ERROR)
-        int initialAlienX = board.getAliens().get(0).getX(); 
-        board.getAliens().get(0).setX(initialAlienX + 1);
-        board.update();
-        assertEquals(initialAlienX + 1, board.getAliens().get(0).getX());
-
-        // Verificar que el disparo se ha movido
+        // Guardar el estado inicial del jugador, disparo y aliens
+        int initialPlayerX = board.getPlayer().getX();
+        int initialPlayerY = board.getPlayer().getY();
         int initialShotY = board.getShot().getY();
-        board.getShot().setY(initialShotY - 1);
-        board.update();
-        assertEquals(initialShotY - 1, board.getShot().getY());
+        int initialAlienX = board.getAliens().get(0).getX();
+        int initialAlienY = board.getAliens().get(0).getY();
 
-        // Verificar que la bomba se ha movido
-        Alien alien = board.getAliens().get(0);
-        Alien.Bomb bomb = alien.getBomb();
-        bomb.setDestroyed(false);
-        bomb.setX(alien.getX());
-        bomb.setY(alien.getY());
+        // Actualizar el estado del juego
         board.update();
-        assertEquals(alien.getY() + 1, bomb.getY());
+
+        // Verificar que el juego sigue en curso
+        assertTrue(board.isInGame());
+        assertNotEquals("Game won!", board.getMessage());
+
+        // Verificar que el estado del jugador se ha actualizado
+        assertNotEquals(initialPlayerX, board.getPlayer().getX());
+        assertNotEquals(initialPlayerY, board.getPlayer().getY());
+
+        // Verificar que el estado del disparo se ha actualizado
+        assertNotEquals(initialShotY, board.getShot().getY());
+
+        // Verificar que el estado de los aliens se ha actualizado
+        assertNotEquals(initialAlienX, board.getAliens().get(0).getX());
+        assertNotEquals(initialAlienY, board.getAliens().get(0).getY());
     }
 
     @Test

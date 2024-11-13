@@ -1,9 +1,10 @@
-package space_invaders.sprites;
+package space_invaders.sprites.ShotTest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import main.Commons;
+import space_invaders.sprites.Shot;
 
 import static org.junit.jupiter.api.Assertions.*;
 

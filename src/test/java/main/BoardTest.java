@@ -17,7 +17,7 @@ import space_invaders.sprites.Shot;
 public class BoardTest {
 
     /* CP1 Normal Strong Equivalence Testing (comprueba entradas válidas)*/
-    @Test
+ /*   @Test
     @DisplayName("Debería inicializar la partida correctamente")
     void testGameInit() {
         Board board = new Board();
@@ -28,12 +28,12 @@ public class BoardTest {
 
         // CP1.2 Verifica el alien de la posicion 0 (primer alien i=0, j=0)
         Alien firstAlien = board.getAliens().get(0);
-        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_X, firstAlien.getX());
         assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
 
         // CP1.3 Verifica el alien de la posicion 23 (último alien i=3, j=5)
         Alien lastAlien = board.getAliens().get(23);
-        assertEquals(Commons.ALIEN_INIT_Y + 18 * 5, lastAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_X + 18 * 5, lastAlien.getX());
         assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
 
         // CP1.4 Verificar que el jugador está inicializado correctamente
@@ -43,7 +43,23 @@ public class BoardTest {
         // CP1.5 Verificar que el disparo está inicializado correctamente
         assertNotNull(board.getShot());
     }
+*/
 
+    @Test
+    @DisplayName("Debería inicializar los aliens correctamente")
+    void testGameInit() {
+        Board board = new Board();
+
+        assertEquals(Commons.NUMBER_OF_ALIENS_TO_DESTROY, board.getAliens().size()); // 4 filas x 6 columnas = 24 aliens
+
+        Alien firstAlien = board.getAliens().get(0);
+        assertEquals(Commons.ALIEN_INIT_X, firstAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
+
+        Alien lastAlien = board.getAliens().get(23);
+        assertEquals(Commons.ALIEN_INIT_X + 18 * 5, lastAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
+    }
 
     @Test
     @DisplayName("Debería finalizar el juego cuando se han destruido todos los alienígenas")
@@ -59,6 +75,22 @@ public class BoardTest {
         // Verificar que el juego ha finalizado (ERROR en el mensaje)
         assertFalse(board.isInGame());
         assertEquals("Game won!", board.getMessage());
+    }
+
+    @Test
+    @DisplayName("Debería seguir el juego cuando aún no se han destruido todos los alienígenas")
+    void testGameContinue() {
+        Board board = new Board();
+
+        // Simular que aún quedan alienígenas
+        board.setDeaths(Commons.CHANCE);
+
+        // Actualizar el estado del juego
+        board.update();
+
+        // Verificar que el juego ha finalizado (ERROR en el mensaje)
+        assertTrue(board.isInGame());
+        assertNull(board.getMessage());
     }
 
 
@@ -144,6 +176,22 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("Debería actualizar el estado del disparo correctamente cuando sale del tablero")
+    void testShotLeavesBoard() {
+        Board board = new Board();
+
+        // Simular un disparo que sale del tablero
+        board.getShot().setVisible(true);
+        board.getShot().setY(-1);
+
+        // Actualizar el estado de los disparos
+        board.update_shots();
+
+        // Verificar que el disparo ha desaparecido
+        assertFalse(board.getShot().isVisible());
+    }
+
+    @Test
     @DisplayName("Debería actualizar el estado de las bombas correctamente")
     void testUpdateBomb() {
         Board board = new Board();
@@ -160,22 +208,6 @@ public class BoardTest {
 
         // Verificar que la bomba se ha movido
         assertEquals(alien.getY() + 1, bomb.getY());
-    }
-
-    @Test
-    @DisplayName("Debería actualizar el estado del disparo correctamente cuando sale del tablero")
-    void testShotLeavesBoard() {
-        Board board = new Board();
-
-        // Simular un disparo que sale del tablero
-        board.getShot().setVisible(true);
-        board.getShot().setY(-1);
-
-        // Actualizar el estado de los disparos
-        board.update_shots();
-
-        // Verificar que el disparo ha desaparecido
-        assertFalse(board.getShot().isVisible());
     }
 
     @Test

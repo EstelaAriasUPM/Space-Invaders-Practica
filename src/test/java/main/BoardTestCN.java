@@ -140,6 +140,9 @@ public class BoardTestCN {
     @DisplayName("Debería actualizar el estado del disparo correctamente cuando no impacta a ningún alien")
     void testShotMissesAlien() {
         Board board = new Board();
+        Image alienImg = new ImageIcon("src/main/resources/images/alien.png").getImage();
+        Alien alien = board.getAliens().get(0);
+
 
         // Simular un disparo que no impacta a ningún alien
         Shot shot = board.getShot();
@@ -147,15 +150,17 @@ public class BoardTestCN {
         int initialY = shot.getY();
         shot.setY(initialY - 1);
 
-        // Verificar la posición inicial del disparo
-        assertEquals(initialY - 1, shot.getY());
-
         // Actualizar el estado de los disparos
         board.update_shots();
 
         // ERROR: El disparo no se ha movido y no esta visible
         assertEquals(initialY - 1 - 4, shot.getY());
         assertTrue(shot.isVisible());
+
+        //Comprueba si las muertes siguen siendo 0
+        assertEquals(0, board.getDeaths());
+        assertEquals(alienImg, alien.getImage());
+
     }
 
     @Test
@@ -176,7 +181,7 @@ public class BoardTestCN {
             assertEquals(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT, alien.getX());
             assertEquals(Commons.ALIEN_INIT_Y + Commons.GO_DOWN, alien.getY());
         }
-        assertEquals(0, board.getDirection());
+        assertEquals(-1, board.getDirection());
     }
 
     @Test
@@ -218,9 +223,10 @@ public class BoardTestCN {
     }
 
     @Test
-    @DisplayName("Debería mover los aliens en la dirección correcta cuando no alcanzan los bordes")
-    void testAliensMoveContinuously() {
+    @DisplayName("Debería mover los aliens en la dirección derecha cuando están en el centro y su dirección es derecha")
+    void testAliensMoveToRight() {
         Board board = new Board();
+        board.setDirection(-1);
 
         // Simular que los aliens están en el medio del tablero
         for (Alien alien : board.getAliens()) {
@@ -232,7 +238,27 @@ public class BoardTestCN {
 
         // Verificar que los aliens se han movido en la dirección correcta
         for (Alien alien : board.getAliens()) {
-            assertEquals(Commons.BOARD_WIDTH / 2 + board.getDirection(), alien.getX());
+            assertEquals(Commons.BOARD_WIDTH / 2 + Commons.ALIEN_WIDTH, alien.getX());
+        }
+    }
+
+    @Test
+    @DisplayName("Debería mover los aliens en la dirección izquierda cuando están en el centro y su dirección es izquierda")
+    void testAliensMoveToLeft() {
+        Board board = new Board();
+        board.setDirection(1);
+
+        // Simular que los aliens están en el medio del tablero
+        for (Alien alien : board.getAliens()) {
+            alien.setX(Commons.BOARD_WIDTH / 2);
+        }
+
+        // Actualizar el estado de los aliens
+        board.update_aliens();
+
+        // Verificar que los aliens se han movido en la dirección correcta
+        for (Alien alien : board.getAliens()) {
+            assertEquals(Commons.BOARD_WIDTH / 2 - Commons.ALIEN_WIDTH , alien.getX());
         }
     }
 

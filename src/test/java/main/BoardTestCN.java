@@ -164,6 +164,22 @@ public class BoardTestCN {
     }
 
     @Test
+    @DisplayName("Debería actualizar el estado del disparo correctamente cuando sale del tablero")
+    void testShotLeavesBoard() {
+        Board board = new Board();
+
+        // Simular un disparo que sale del tablero
+        board.getShot().setVisible(true);
+        board.getShot().setY(-1);
+
+        // Actualizar el estado de los disparos
+        board.update_shots();
+
+        // Verificar que el disparo ha desaparecido
+        assertFalse(board.getShot().isVisible());
+    }
+
+    @Test
     @DisplayName("Debería mover los aliens hacia la izquierda y hacia abajo cuando alcanzan el borde derecho")
     void testAliensMoveLeftAndDown() {
         Board board = new Board();
@@ -279,23 +295,13 @@ public class BoardTestCN {
 
         // Verificar que la bomba se ha movido
         assertEquals(alien.getY() + 1, bomb.getY());
+
+        //Verificar que la bomba no es destruida
+        assertFalse(bomb.isDestroyed());
+
     }
 
-    @Test
-    @DisplayName("Debería actualizar el estado del disparo correctamente cuando sale del tablero")
-    void testShotLeavesBoard() {
-        Board board = new Board();
 
-        // Simular un disparo que sale del tablero
-        board.getShot().setVisible(true);
-        board.getShot().setY(-1);
-
-        // Actualizar el estado de los disparos
-        board.update_shots();
-
-        // Verificar que el disparo ha desaparecido
-        assertFalse(board.getShot().isVisible());
-    }
 
     @Test
     @DisplayName("Debería destruir la bomba cuando alcanza el suelo")

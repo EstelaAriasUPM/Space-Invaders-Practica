@@ -54,6 +54,7 @@ public class Alien extends Sprite {
      * Mueve horizontalmente el alien en la dirección indicada
      * @param direction posición hacia la izquierda o derecha hacia la que se mueve el alien
      * */
+    //Cuanto le mueve? Hemos supuesto que el grosor de un alien
     public void act(int direction) {
 
         this.x = direction+Commons.ALIEN_WIDTH;
@@ -92,7 +93,7 @@ public class Alien extends Sprite {
          * */
         private void initBomb(int x, int y) {
 
-            setDestroyed(true);
+            setDestroyed(true); //Rarete
 
             if (x<= Commons.BOARD_WIDTH && y<= Commons.BOARD_HEIGHT) {
                 this.x += x;

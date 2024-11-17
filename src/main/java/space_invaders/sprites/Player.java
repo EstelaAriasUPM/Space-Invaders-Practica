@@ -16,6 +16,14 @@ public class Player extends Sprite {
 
     }
 
+    public void setdx(int dxSetted){
+        dx = dxSetted;
+    }
+
+    public int getdx(){
+        return dx;
+    }
+
     public Player() {
 
         initPlayer();

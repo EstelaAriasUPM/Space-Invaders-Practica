@@ -1,8 +1,29 @@
 package space_invaders.sprites.SpriteTest;
 
+import javax.swing.ImageIcon;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import space_invaders.sprites.Sprite;
+
 public class SpriteTestCB {
-    /** Las Pruebas de Caja Blanca para la clase Sprite no tienen sentido
-     * porque esta compuesta de metodos setter y getter que no tienen
-     * comportamiento que se pueda probar. Es decir, no hay nada más que 1 unico caminio  
-     * */
+
+	    @Test
+	    @DisplayName("sprite CB")
+	    public void testSpriteDie() {
+	        Sprite sprite = new Sprite();
+	        sprite.die();
+	        sprite.isVisible();
+	        sprite.setVisible(false);
+	        sprite.setImage(new ImageIcon("src/main/resources/images/player.png").getImage());
+	        sprite.setX(100);
+	        sprite.setY(200);
+	        sprite.setDying(true);
+	        sprite.getY();
+	        sprite.getX();
+	        sprite.isDying();
+	        sprite.getImage();
+	    }
+
 }

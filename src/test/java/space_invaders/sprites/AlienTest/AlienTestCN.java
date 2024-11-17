@@ -27,6 +27,14 @@ public class AlienTestCN {
     }
 
     @Test
+    @DisplayName("Debería inicializar un alien con coordenadas negativas")
+    public void testAlienInitializationWithNegativeCoordinatesx() {
+        Alien alien = new Alien(-10, 20);
+        assertEquals(0, alien.getX());
+        assertEquals(20, alien.getY());
+    }
+
+    @Test
     @DisplayName("Debería inicializar un alien fuera de los límites del tablero")
     public void testAlienInitializationWithExceedingCoordinates() {
         Alien alien = new Alien(Commons.BOARD_WIDTH + 10, Commons.BOARD_HEIGHT + 20);

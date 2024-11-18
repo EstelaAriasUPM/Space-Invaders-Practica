@@ -44,6 +44,7 @@ public class BoardTestCB {
 	@DisplayName("update board CB")
 	void testUpdate() {
 		Board board = new Board();
+		board.setDeaths(0);
 		board.update();
 		board.setDeaths(5);
 		board.update();
@@ -56,7 +57,7 @@ public class BoardTestCB {
 		board.getShot().setVisible(false);
 		board.update_shots();
 	}
-	
+
 	@Test
 	@DisplayName("update shoots CP2 CB")
 	void testUpdateShoots2() {
@@ -65,6 +66,7 @@ public class BoardTestCB {
 		board.setAliens(new ArrayList<Alien>());
 		board.update_shots();
 	}
+
 	@Test
 	@DisplayName("update shoots CP3 CB")
 	void testUpdateShoots3() {
@@ -74,67 +76,114 @@ public class BoardTestCB {
 		board.setAliens(new ArrayList<Alien>());
 		board.update_shots();
 	}
-	
+
 	@Test
-	@DisplayName("update shoots CP3 CB")
+	@DisplayName("update shoots CP4 CB")
 	void testUpdateShoots4() {
 		Board board = new Board();
 		board.getShot().setVisible(true);
 		board.getShot().setX(10);
-		board.getShot().setY(10);		
+		board.getShot().setY(10);
+		for (Alien a : board.getAliens()) {
+			a.setVisible(false);
+		}
+		board.update_shots();
+	}
+	@Test
+	@DisplayName("update shoots CP5 CB")
+	void testUpdateShoots5() {
+		Board board = new Board();
+		board.getShot().setVisible(true);
+		board.getShot().setX(10);
+		board.getShot().setY(10);
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
-			a.getBomb().setDestroyed(true);
-			a.getBomb().setX(10);
-			a.getBomb().setY(10);
+			a.setX(100);
+		}
+		board.update_shots();
+	}
+	@Test
+	@DisplayName("update shoots CP6 CB")
+	void testUpdateShoots6() {
+		Board board = new Board();
+		board.getShot().setVisible(true);
+		board.getShot().setX(10);
+		board.getShot().setY(10);
+		for (Alien a : board.getAliens()) {
+			a.setVisible(true);
+			a.setX(10);
+			a.setY(10);
 		}
 		board.update_shots();
 	}
 
 	@Test
-	@DisplayName("update aliens CB")
-	void testUpdateAliens1() {
+	@DisplayName("update aliens CP1 CB")
+	void testUpdateAliens() {
 		Board board = new Board();
-		Alien cp1 = board.getAliens().get(0);
-
-		cp1.setX(350);
-		board.setDirection(0);
-		board.update_aliens();
+		board.setAliens(new ArrayList<Alien>());
 
 	}
 
 	@Test
-	@DisplayName("update aliens CB")
+	@DisplayName("update aliens CP4 CB")
+	void testUpdateAliens1() {
+		Board board = new Board();
+		for (Alien a : board.getAliens()) {
+			a.setVisible(false);
+			a.setX(400);
+		}
+		board.update_aliens();
+	}
+
+	@Test
+	@DisplayName("update aliens CP2 CB")
 	void testUpdateAliens2() {
 		Board board = new Board();
-		Alien cp1 = board.getAliens().get(0);
-
-		cp1.setX(1);
+		for (Alien a : board.getAliens()) {
+			a.setVisible(false);
+			a.setX(100);
+		}
 		board.setDirection(-1);
 		board.update_aliens();
 
 	}
 
 	@Test
-	@DisplayName("update aliens CB")
+	@DisplayName("update aliens CP3 CB")
 	void testUpdateAliens3() {
 		Board board = new Board();
-		Alien cp1 = board.getAliens().get(0);
-
-		cp1.setX(350);
-		board.setDirection(1);
+		for (Alien a : board.getAliens()) {
+			a.setVisible(false);
+			a.setX(0);
+		}
+		board.setDirection(0);
 		board.update_aliens();
 
 	}
 
 	@Test
-	@DisplayName("update aliens CB")
+	@DisplayName("update aliens CP5 CB")
 	void testUpdateAliens4() {
 		Board board = new Board();
-		Alien cp1 = board.getAliens().get(0);
+		for (Alien a : board.getAliens()) {
+			a.setX(400);
+			a.setY(Commons.GROUND - 100);
+		}
+		board.setDirection(0);
+		board.update_aliens();
 
-		cp1.setX(1);
-		board.setDirection(1);
+	}
+	
+	@Test
+	@DisplayName("update aliens CP6 CB")
+	void testUpdateAliens5() {
+		Board board = new Board();
+		for (Alien a : board.getAliens()) {
+			a.setX(400);
+			a.setY(Commons.GROUND + 100);
+		}
+		board.setDirection(0);
 		board.update_aliens();
 
 	}
@@ -188,7 +237,7 @@ public class BoardTestCB {
 			a.getBomb().setX(-100);
 			a.getBomb().setY(-100);
 		}
-		board.getPlayer().setVisible(false);
+		board.getPlayer().setVisible(true);
 		board.getPlayer().setX(200);
 		board.getPlayer().setY(200);
 		board.update_bomb();
@@ -206,7 +255,7 @@ public class BoardTestCB {
 			a.getBomb().setX(100);
 			a.getBomb().setY(100);
 		}
-		board.getPlayer().setVisible(false);
+		board.getPlayer().setVisible(true);
 		board.getPlayer().setX(100);
 		board.getPlayer().setY(100);
 		board.update_bomb();

@@ -4,7 +4,6 @@ import main.Commons;
 
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
-
 public class Player extends Sprite {
 
     private int width;
@@ -15,23 +14,17 @@ public class Player extends Sprite {
         return width;
 
     }
-
     public void setdx(int dxSetted){
         dx = dxSetted;
     }
-
     public int getdx(){
         return dx;
     }
-
     public Player() {
 
         initPlayer();
     }
-    /**
-     * Crea un nuevo jugador, le asigna su imagen en la interfaz y lo ubica en el centro de la pantalla
-     * */
-    private void initPlayer() {
+    private void initPlayer() { //Crea un nuevo jugador, le asigna su imagen en la interfaz y lo ubica en el centro de la pantalla
 
         var playerImg = "src/main/resources/images/player.png";
         var ii = new ImageIcon(playerImg);
@@ -46,10 +39,9 @@ public class Player extends Sprite {
         setY(START_Y);
     }
 
-    /**
-     * Mueve la posición del jugador a la izquierda o a la derecha.
-     * Si el jugador ha alcanzado el borde de la pantalla y se intenta mover fuera de la pantalla, lo mantendrá quieto en el borde.
-     * */
+
+     // Mueve la posición del jugador a la izquierda o a la derecha.
+     //Si el jugador ha alcanzado el borde de la pantalla y se intenta mover fuera de la pantalla, lo mantendrá quieto en el borde
 
     //ESTE METODO ESTÁ MAL
     public void act() {

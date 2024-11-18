@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import main.Commons;
 import space_invaders.sprites.Player;
 
+import java.awt.event.KeyEvent;
+
 public class PlayerTestCB {
 	Player player;
 	@BeforeEach
@@ -26,4 +28,23 @@ public class PlayerTestCB {
 	        assertEquals(Commons.BOARD_HEIGHT, player.getY());
 	        assertNotNull(player.getImage());
 	    }
-}
+
+		@Test
+		@DisplayName("comprueba keypressed")
+		public void testPlayerKeyPressed() {
+		KeyEvent keyLeft = new KeyEvent(new java.awt.Button(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
+		KeyEvent keyRight = new KeyEvent(new java.awt.Button(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+		player.keyPressed(keyLeft);
+		player.keyPressed(keyRight);
+	}
+
+		@Test
+		@DisplayName("comprueba keyreleased")
+		public void testPlayerKeyReleased() {
+		KeyEvent keyLeft = new KeyEvent(new java.awt.Button(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
+		KeyEvent keyRight = new KeyEvent(new java.awt.Button(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+		player.keyReleased(keyLeft);
+		player.keyReleased(keyRight);
+		}
+	}
+

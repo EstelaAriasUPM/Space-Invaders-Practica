@@ -50,18 +50,45 @@ public class BoardTestCB {
 	}
 
 	@Test
-	@DisplayName("update shoots CB")
+	@DisplayName("update shoots CP1 CB")
 	void testUpdateShoots() {
 		Board board = new Board();
-		Alien cp1 = board.getAliens().get(0);
-		Alien cp2 = board.getAliens().get(1);
-		Alien cp3 = board.getAliens().get(2);
-		Alien cp4 = board.getAliens().get(3);
-
-		cp1.setVisible(false);
-		cp1.setY(-1);
-		cp2.setVisible(false);
-		cp2.setY(1);
+		board.getShot().setVisible(false);
+		board.update_shots();
+	}
+	
+	@Test
+	@DisplayName("update shoots CP2 CB")
+	void testUpdateShoots2() {
+		Board board = new Board();
+		board.getShot().setVisible(true);
+		board.setAliens(new ArrayList<Alien>());
+		board.update_shots();
+	}
+	@Test
+	@DisplayName("update shoots CP3 CB")
+	void testUpdateShoots3() {
+		Board board = new Board();
+		board.getShot().setVisible(true);
+		board.getShot().setY(10);
+		board.setAliens(new ArrayList<Alien>());
+		board.update_shots();
+	}
+	
+	@Test
+	@DisplayName("update shoots CP3 CB")
+	void testUpdateShoots4() {
+		Board board = new Board();
+		board.getShot().setVisible(true);
+		board.getShot().setX(10);
+		board.getShot().setY(10);		
+		for (Alien a : board.getAliens()) {
+			a.setVisible(true);
+			a.getBomb().setDestroyed(true);
+			a.getBomb().setX(10);
+			a.getBomb().setY(10);
+		}
+		board.update_shots();
 	}
 
 	@Test
@@ -116,6 +143,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp1 CB")
 	void testUpdatebombs() {
 		Board board = new Board();
+		board.getTimer().stop();
 		board.setAliens(new ArrayList<Alien>());
 		board.update_bomb();
 
@@ -125,6 +153,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp2 CB")
 	void testUpdatebombs2() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(false);
 			a.getBomb().setDestroyed(true);
@@ -138,6 +167,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp3 CB")
 	void testUpdatebombs3() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
 			a.getBomb().setDestroyed(true);
@@ -151,6 +181,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp4 CB")
 	void testUpdatebombs4() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
 			a.getBomb().setDestroyed(true);
@@ -168,6 +199,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp5 CB")
 	void testUpdatebombs5() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
 			a.getBomb().setDestroyed(true);
@@ -185,13 +217,14 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp6 CB")
 	void testUpdatebombs6() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
-			a.getBomb().setDestroyed(true);
+			a.getBomb().setDestroyed(false);
 			a.getBomb().setX(100);
 			a.getBomb().setY(100);
 		}
-		board.getPlayer().setVisible(false);
+		board.getPlayer().setVisible(true);
 		board.getPlayer().setX(100);
 		board.getPlayer().setY(100);
 		board.update_bomb();
@@ -202,6 +235,7 @@ public class BoardTestCB {
 	@DisplayName("update bomb cp7 CB")
 	void testUpdatebombs7() {
 		Board board = new Board();
+		board.getTimer().stop();
 		for (Alien a : board.getAliens()) {
 			a.setVisible(true);
 			a.getBomb().setDestroyed(true);

@@ -14,6 +14,7 @@ public class Player extends Sprite {
         return width;
 
     }
+
     public void setdx(int dxSetted){
         dx = dxSetted;
     }
@@ -43,9 +44,17 @@ public class Player extends Sprite {
      // Mueve la posición del jugador a la izquierda o a la derecha.
      //Si el jugador ha alcanzado el borde de la pantalla y se intenta mover fuera de la pantalla, lo mantendrá quieto en el borde
 
-    //ESTE METODO ESTÁ MAL
-    public void act() {
+    //Hemos arreglado el posicionamiento del jugador con la función y además añadida la comprobación de exceder los límites tanto inferiores o superiores
 
+    public void act() {  //ESTA FUNCIÓN HA SIDO CAMBIADA
+        x+=dx;
+
+        if (x < 0){
+            x = 0;
+        } else if (x > 343){
+            x = 343;
+        }
+/*
         x += dx;
 
         if (x >= 2) {
@@ -57,6 +66,8 @@ public class Player extends Sprite {
 
             x = Commons.BOARD_WIDTH - 2 * width;
         }
+        */
+
     }
     /**
      * Comprueba qué tecla está pulsada y:
@@ -65,14 +76,14 @@ public class Player extends Sprite {
      * Cualquier otra tecla de movimiento no produce acción
      * @param e tecla presionada
      * */
-    //ESTE METODO ESTÁ MAL
-    public void keyPressed(KeyEvent e) {
+    //Hemos cambiado la función añadiendo un '-' a la hora de elegir la dirección con la tecla izquierda
+    public void keyPressed(KeyEvent e) {//ESTA FUNCIÓN HA SIDO CAMBIADA
 
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
 
-            dx = 2;
+            dx = -2;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
@@ -101,4 +112,24 @@ public class Player extends Sprite {
             dx = 0;
         }
     }
+    //Tanto setX como setY no comprobaban los límites del tablero a la hora de colocar al jugador, lo que daba fallos
+
+    public void setX(int newX){//ESTA FUNCIÓN HA SIDO CAMBIADA
+        if(newX < 0){
+            newX=0;
+        } else if (newX > 343){
+            newX = 343;
+        }
+        x=newX;
+    }
+
+    public void setY(int newY){//ESTA FUNCIÓN HA SIDO CAMBIADA
+        if(newY < 0){
+            newY=0;
+        } else if (newY > 350){
+            newY = 350;
+        }
+        y=newY;
+    }
+
 }

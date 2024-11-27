@@ -234,12 +234,13 @@ public class Board extends JPanel {
             inGame = false;
             timer.stop();
             message = "Game won!";
+        } else {
+        	//correccion de error testGameWon, en caso de ganar, la partida deja de funcionar
+        	this.player.act();
+        	update_shots();
+        	update_aliens();
+        	update_bomb();
         }
-
-        this.player.act();
-        update_shots();
-        update_aliens();
-        update_bomb();
     }
     /**
      * Actualiza el estado de los disparos a los alienígenas.

@@ -56,7 +56,7 @@ public class Board extends JPanel {
     public Board() {
 
         initBoard();
-        gameInit(); //Duplicicdad de código (?)
+        //gameInit(); //Duplicicdad de código (?)
     }
     /**
      * Inicializa un nuevo tablero con las dimensiones predefinidas, le asigna un fondo de color negro, inicializa el contador de juego e inicia la partida.
@@ -230,7 +230,7 @@ public class Board extends JPanel {
      * */
     public void update() {
 
-        if (deaths == Commons.CHANCE) {
+        if (getDeaths() == Commons.CHANCE) {
             inGame = false;
             timer.stop();
             message = "Game won!";
@@ -257,17 +257,22 @@ public class Board extends JPanel {
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && this.shot.isVisible()) {
+                if (alien.isVisible() && this.shot.isVisible() ) {
                     if (shotX >= (alienX)
                             && shotX <= (alienX + Commons.ALIEN_WIDTH)
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
                         var ii = new ImageIcon(explImg);
-                        alien.setImage(ii.getImage());
-                        alien.setDying(true);
-                        deaths--; // ERROR: Debería ser deaths++
-                        this.shot.die();
+                        
+                        // Controlo que la imagen del alien sea distinta a la de la explosión para que no contabilice más de una vez la misma muerte
+                        if(alien.getImage() != ii.getImage()){
+                            alien.setImage(ii.getImage());
+                            alien.setDying(true);
+                            /* deaths--; */ // ERROR: Debería ser deaths++
+                            deaths++; //CORRECCIÓN
+                            this.shot.die();
+                        }
                     }
                 }
             }
@@ -292,9 +297,12 @@ public class Board extends JPanel {
 
             int x = alien.getX();
 
-            if (x <= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
-                direction = 0;
+            // Original(ERROR): if (x <= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
+            // Si el alienígena llega al borde derecho del tablero y la dirección no es hacia la izquierda, cambia la dirección a la izquierda
+            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) { //CORRECCIÓN
+                
+               // direction = 0;//ERROR: Debería ser -1 (izquierda)
+                direction = -1; //CORRECCIÓN
 
                 Iterator<Alien> i1 = this.aliens.iterator();
 
@@ -305,16 +313,20 @@ public class Board extends JPanel {
                 }
             }
 
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
+           // Original(ERROR): if (x <= Commons.BORDER_LEFT && direction != 1) {
+           // Si el alienígena llega al borde izquierdo del tablero y la dirección no es hacia la derecha, cambia la dirección a la derecha 
+           if(x<=Commons.BORDER_LEFT && direction != 1){
 
-                direction = 1;
+                direction=1;
 
                 Iterator<Alien> i2 = this.aliens.iterator();
 
                 while (i2.hasNext()) {
 
                     Alien a = i2.next();
-                    a.setX(a.getY() + Commons.GO_DOWN);
+                    // Original(ERROR): a.setX(a.getY() + Commons.GO_DOWN);
+                    // Bajan los alienigenas una posición hacia abajo (eje Y)
+                    a.setY(a.getY() + Commons.GO_DOWN); //CORRECCIÓN
                 }
             }
         }
@@ -329,6 +341,7 @@ public class Board extends JPanel {
 
                 int y = alien.getY();
 
+                //if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
                     message = "Invasion!";
@@ -351,10 +364,10 @@ public class Board extends JPanel {
 
         for (Alien alien : this.aliens) {
 
-            int shot = generator.nextInt(15);
+            int shotB = generator.nextInt(15);
             Alien.Bomb bomb = alien.getBomb();
 
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
+            if (shotB == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
 
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
@@ -365,6 +378,8 @@ public class Board extends JPanel {
             int bombY = bomb.getY();
             int playerX = this.player.getX();
             int playerY = this.player.getY();
+            int shotX = this.shot.getX();
+            int shotY = this.shot.getY();
 
             if (this.player.isVisible() && !bomb.isDestroyed()) {
 
@@ -375,8 +390,16 @@ public class Board extends JPanel {
 
                     var ii = new ImageIcon(explImg);
                     this.player.setImage(ii.getImage());
-                    this.player.setDying(false); //ERROR: Debería ser true
+                   /*  this.player.setDying(false);*/ //ERROR: Debería ser true
+                    this.player.setDying(true); //CORRECCIÓN
                     bomb.setDestroyed(true);
+                }
+                if (shotX == bombX && shotY >= bombY && shotY <= (bombY + Commons.BOMB_HEIGHT)) {
+                    bomb.setDestroyed(true);
+                    bomb.setVisible(false);
+                    this.shot.setDying(true);
+                    this.shot.setVisible(false);
+                    
                 }
             }
 
@@ -386,7 +409,8 @@ public class Board extends JPanel {
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
 
-                    bomb.setDestroyed(false);
+                    // Original: bomb.setDestroyed(false);
+                    bomb.setDestroyed(true); //CORRECCIÓN
                 }
             }
         }

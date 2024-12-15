@@ -235,7 +235,6 @@ public class Board extends JPanel {
             timer.stop();
             message = "Game won!";
         } else {
-        	//correccion de error testGameWon, en caso de ganar, la partida deja de funcionar
         	this.player.act();
         	update_shots();
         	update_aliens();
@@ -280,7 +279,7 @@ public class Board extends JPanel {
             int y = this.shot.getY();
             y -= 4;
 
-            if (y < 0) { //fallo codigo
+            if (y < 0) {
                 this.shot.die();
             } else {
                 this.shot.setY(y);
@@ -301,7 +300,7 @@ public class Board extends JPanel {
             // Si el alienígena llega al borde derecho del tablero y la dirección no es hacia la izquierda, cambia la dirección a la izquierda
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) { //CORRECCIÓN
                 
-               // direction = 0;//ERROR: Debería ser -1 (izquierda)
+            //  direction = 0;//ERROR: Debería ser -1 (izquierda)
                 direction = -1; //CORRECCIÓN
 
                 Iterator<Alien> i1 = this.aliens.iterator();
@@ -313,7 +312,6 @@ public class Board extends JPanel {
                 }
             }
 
-           // Original(ERROR): if (x <= Commons.BORDER_LEFT && direction != 1) {
            // Si el alienígena llega al borde izquierdo del tablero y la dirección no es hacia la derecha, cambia la dirección a la derecha 
            if(x<=Commons.BORDER_LEFT && direction != 1){
 
@@ -341,7 +339,6 @@ public class Board extends JPanel {
 
                 int y = alien.getY();
 
-                //if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
                     message = "Invasion!";

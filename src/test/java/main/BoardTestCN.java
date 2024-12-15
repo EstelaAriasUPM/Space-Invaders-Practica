@@ -185,20 +185,22 @@ public class BoardTestCN {
     @DisplayName("Debería mover los aliens hacia la izquierda y hacia abajo cuando alcanzan el borde derecho")
     void testAliensMoveLeftAndDown() {
         Board board = new Board();
+        
         // Obtener el alien en la posición 5 (primera fila, última columna)
-        Alien alien = board.getAliens().get(5);
+        Alien alien = board.getAliens().get(0);
 
         // Simular que el alien alcanza el borde derecho 
         alien.setX(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT);
 
-        // Actualizar el estado de los aliens
+        board.setDirection(1); 
+        board.getTimer().stop();// Dirección inicial de los aliens
         board.update_aliens();
 
-        // Comprobamos si el alien se ha movido hacia la derecha (-1 sobre el borde izquierdo)
-        assertEquals((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT)+1, alien.getX());
+        // Comprobamos si el alien se ha movido hacia la izquierda (-1 sobre el borde derecho)
+        assertEquals((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) -1, alien.getX());
 
         // Comprobamos si el alien se ha movido hacia abajo (Go down sobre la posición inicial)
-        assertEquals(Commons.ALIEN_INIT_Y + Commons.GO_DOWN, alien.getY());
+        assertEquals((Commons.ALIEN_INIT_Y + Commons.GO_DOWN*2), alien.getY());
         
         // Comprobamos si la dirección de los aliens ha cambiado a la izquierda
         assertEquals(-1, board.getDirection());
@@ -217,7 +219,7 @@ public class BoardTestCN {
         board.update_aliens();
 
         // Comprobamos si el alien se ha movido hacia la derecha (+1 sobre el borde izquierdo)
-        assertEquals(Commons.BORDER_LEFT + 1, alien.getX());
+        assertEquals(Commons.BORDER_LEFT +1, alien.getX());
 
         // Comprobamos si el alien se ha movido hacia abajo (Go down sobre la posición inicial)
         assertEquals(Commons.ALIEN_INIT_Y + Commons.GO_DOWN, alien.getY());

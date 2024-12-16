@@ -281,6 +281,7 @@ public class Board extends JPanel {
                             /* deaths--; */ // ERROR: Debería ser deaths++
                             deaths++; //CORRECCIÓN
                             this.shot.die();
+                            alien.die();
                         }
                     }
                 }

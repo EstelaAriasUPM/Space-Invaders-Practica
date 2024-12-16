@@ -82,6 +82,7 @@ public class PlayerTestCN {
         assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
     }
 
+
     @Test
     @DisplayName("Debería pulsar la tecla izquierda")
     public void testPlayerPressedKeyLeft() {

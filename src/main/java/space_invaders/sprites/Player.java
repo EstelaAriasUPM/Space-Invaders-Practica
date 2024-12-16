@@ -51,8 +51,8 @@ public class Player extends Sprite {
 
         if (x < 0){
             x = 0;
-        } else if (x > 343){
-            x = 343;
+        } else if (x + Commons.BORDER_RIGHT > Commons.BOARD_WIDTH){
+            x = Commons.BOARD_WIDTH - Commons.BORDER_RIGHT;
         }
 /*
         x += dx;

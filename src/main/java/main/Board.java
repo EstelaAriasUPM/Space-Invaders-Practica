@@ -28,7 +28,9 @@ public class Board extends JPanel {
     private Player player;
     private Shot shot;
 
-    private int direction = -1;
+    //private int direction = -1;
+    private int direction = 1;
+
     private int deaths = 0;
 
     private boolean inGame = true;
@@ -82,7 +84,7 @@ public class Board extends JPanel {
     private void gameInit() {
 
         this.aliens = new ArrayList<>();
-
+/* 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
@@ -91,7 +93,15 @@ public class Board extends JPanel {
                 this.aliens.add(alien);
             }
         }
+*/
+     for (int i = 0; i <4; i++) {
+            for (int j = 0; j <6; j++) {
 
+            var alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
+                    Commons.ALIEN_INIT_Y + 18 * i);
+            this.aliens.add(alien);
+        }
+    }
         this.player = new Player();
         this.shot = new Shot();
     }
@@ -298,7 +308,7 @@ public class Board extends JPanel {
 
             // Original(ERROR): if (x <= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
             // Si el alienígena llega al borde derecho del tablero y la dirección no es hacia la izquierda, cambia la dirección a la izquierda
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) { //CORRECCIÓN
+            if (x>= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) { //CORRECCIÓN
                 
             //  direction = 0;//ERROR: Debería ser -1 (izquierda)
                 direction = -1; //CORRECCIÓN

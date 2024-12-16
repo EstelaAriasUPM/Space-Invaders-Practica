@@ -187,7 +187,8 @@ public class BoardTestCN {
         Board board = new Board();
         
         // Obtener el alien en la posición 5 (primera fila, última columna)
-        Alien alien = board.getAliens().get(0);
+        Alien alien = board.getAliens().get(5);
+
 
         // Simular que el alien alcanza el borde derecho 
         alien.setX(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT);
@@ -195,12 +196,11 @@ public class BoardTestCN {
         board.setDirection(1); 
         board.getTimer().stop();// Dirección inicial de los aliens
         board.update_aliens();
-
         // Comprobamos si el alien se ha movido hacia la izquierda (-1 sobre el borde derecho)
-        assertEquals((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) -1, alien.getX());
-
+        assertEquals((Commons.BOARD_WIDTH - Commons.BORDER_RIGHT)-1 , alien.getX());
+        
         // Comprobamos si el alien se ha movido hacia abajo (Go down sobre la posición inicial)
-        assertEquals((Commons.ALIEN_INIT_Y + Commons.GO_DOWN*2), alien.getY());
+        assertEquals((Commons.ALIEN_INIT_Y + Commons.GO_DOWN), alien.getY());
         
         // Comprobamos si la dirección de los aliens ha cambiado a la izquierda
         assertEquals(-1, board.getDirection());

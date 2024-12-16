@@ -1,0 +1,50 @@
+package main;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import main.Board;
+import main.Commons;
+
+import space_invaders.sprites.Alien;
+import space_invaders.sprites.Player;
+import space_invaders.sprites.Shot;
+
+public class BoardTestIntegr {
+
+    @Mock
+    private Player player;
+
+    @Mock
+    private Shot shot;
+
+    @InjectMocks
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        board.gameInit(); // Inicializar completamente el tablero
+    }
+
+    @Test
+    @DisplayName("Debería inicializar correctamente los componentes del juego")
+    void testGameInit() {
+        List<Alien> aliens = board.getAliens();
+
+        when(board.getAliens()).thenReturn(aliens);
+        when(board.getPlayer()).thenReturn(player);
+        when(board.getShot()).thenReturn(shot);
+        when(alien.isVisible()).thenReturn(true);
+        when(player.isVisible()).thenReturn(true);
+        when(shot.isVisible()).thenReturn(true);
+    }
+
+}

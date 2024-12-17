@@ -250,9 +250,10 @@ public class Board extends JPanel {
      * Si no se han destruido, actualiza el estado del juego.
      * */
     public void update() {
-
-        if (getDeaths() == Commons.CHANCE) {
-            logger.info("Se han destruido todos los aliens (5 para ganar). El juego ha terminado.");
+        // Original: if (deaths == Commons.CHANCE){ En el enunciado indica que se gana matando a todos los aliens
+        // Corrección:
+        if (getDeaths() == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+            logger.info("Se han destruido todos los aliens (24 para ganar). El juego ha terminado.");
             inGame = false;
             logger.info("Se ha actualizado el estado del juego a 'inGame = false'");
             timer.stop();

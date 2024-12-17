@@ -24,12 +24,12 @@ public class BoardTestCB {
 
 		// CP1.2 Verifica el alien de la posicion 0 (primer alien i=0, j=0)
 		Alien firstAlien = board.getAliens().get(0);
-		assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getX());
+		assertEquals(Commons.ALIEN_INIT_X, firstAlien.getX());
 		assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
 
 		// CP1.3 Verifica el alien de la posicion 23 (último alien i=3, j=5)
 		Alien lastAlien = board.getAliens().get(23);
-		assertEquals(Commons.ALIEN_INIT_Y + 18 * 5, lastAlien.getX());
+		assertEquals(Commons.ALIEN_INIT_X + 18 * 5, lastAlien.getX());
 		assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
 
 		// CP1.4 Verificar que el jugador está inicializado correctamente

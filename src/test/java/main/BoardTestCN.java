@@ -54,11 +54,11 @@ public class BoardTestCN {
         assertEquals(Commons.NUMBER_OF_ALIENS_TO_DESTROY, board.getAliens().size()); // 4 filas x 6 columnas = 24 aliens
 
         Alien firstAlien = board.getAliens().get(0);
-        assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_X, firstAlien.getX());
         assertEquals(Commons.ALIEN_INIT_Y, firstAlien.getY());
 
         Alien lastAlien = board.getAliens().get(23);
-        assertEquals(Commons.ALIEN_INIT_Y + 18 * 5, lastAlien.getX());
+        assertEquals(Commons.ALIEN_INIT_X + 18 * 5, lastAlien.getX());
         assertEquals(Commons.ALIEN_INIT_Y + 18 * 3, lastAlien.getY());
     }
 
@@ -69,12 +69,13 @@ public class BoardTestCN {
         Board board = new Board();
 
         // Simular que todos los alienígenas han sido destruidos
-        board.setDeaths(Commons.CHANCE);
+        board.setDeaths(Commons.NUMBER_OF_ALIENS_TO_DESTROY);
 
         // Actualizar el estado del juego
         board.update();
 
         // Verificar que el juego ha finalizado (ERROR en el mensaje)
+        assertTrue(board.getDeaths() == Commons.NUMBER_OF_ALIENS_TO_DESTROY);
         assertFalse(board.isInGame());
         assertEquals("Game won!", board.getMessage());
     }

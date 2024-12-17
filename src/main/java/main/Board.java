@@ -18,18 +18,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.List; 
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Board extends JPanel {
+
+    private static Logger logger = LoggerFactory.getLogger(Board.class);
 
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
 
-    //private int direction = -1;
-    private int direction = 1;
+    private int direction = -1;
 
     private int deaths = 0;
 
@@ -75,6 +80,7 @@ public class Board extends JPanel {
         timer.start();
 
         gameInit();
+        logger.info("Termina de ejecutarse initBoard y se llama al metodo gameInit()");
     }
 
     /**
@@ -84,7 +90,11 @@ public class Board extends JPanel {
     private void gameInit() {
 
         this.aliens = new ArrayList<>();
-/* 
+
+/*      Bucle original, no sabiamos si considerarlo como error, inicializaba los aliens 
+        pegados al borde izquierdo, lo que hacia que una vez arreglado el programa automaticamente
+        cambiase la direccion y bajasen.
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
 
@@ -94,6 +104,7 @@ public class Board extends JPanel {
             }
         }
 */
+     // Bucle modificado, inicializa los aliens en una posicion mas centrada del eje X
      for (int i = 0; i <4; i++) {
             for (int j = 0; j <6; j++) {
 
@@ -241,9 +252,12 @@ public class Board extends JPanel {
     public void update() {
 
         if (getDeaths() == Commons.CHANCE) {
+            logger.info("Se han destruido todos los aliens (5 para ganar). El juego ha terminado.");
             inGame = false;
+            logger.info("Se ha actualizado el estado del juego a 'inGame = false'");
             timer.stop();
             message = "Game won!";
+            logger.info("Se ha actualizado el mensaje de la interfaz a 'Game won!'");
         } else {
         	this.player.act();
         	update_shots();
@@ -257,7 +271,6 @@ public class Board extends JPanel {
      * */
     public void update_shots() {
         if (this.shot.isVisible()) {
-
             int shotX = this.shot.getX();
             int shotY = this.shot.getY();
 
@@ -271,17 +284,32 @@ public class Board extends JPanel {
                             && shotX <= (alienX + Commons.ALIEN_WIDTH)
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
-
+                        
+                        logger.info("El disparo ha alcanzado a un alien en la posicion: " + alien.getX() + ", " + alien.getY());
                         var ii = new ImageIcon(explImg);
                         
                         // Controlo que la imagen del alien sea distinta a la de la explosión para que no contabilice más de una vez la misma muerte
                         if(alien.getImage() != ii.getImage()){
                             alien.setImage(ii.getImage());
+                            logger.info("Se ha cambiado la imagen del alien por la de la explosion");
                             alien.setDying(true);
+                            logger.info("Se ha actualizado el estado del alien a dying = true");
                             /* deaths--; */ // ERROR: Debería ser deaths++
                             deaths++; //CORRECCIÓN
+                            logger.info("Se ha actualizado el contador de muertes a " + deaths);
                             this.shot.die();
-                            alien.die();
+                            logger.info("El disparo ha muerto");
+
+                            // Se ha añadido este fragmento de codigo para eliminar el alien 
+                            //(por su imagen de explosion) transcurrido un tiempo de 500ms
+                            CompletableFuture.runAsync(() -> {
+                                try {
+                                    Thread.sleep(500);
+                                    alien.die();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            });
                         }
                     }
                 }
@@ -291,6 +319,7 @@ public class Board extends JPanel {
             y -= 4;
 
             if (y < 0) {
+                logger.info("El disparo ha alcanzado el borde superior del tablero y procede a morir");
                 this.shot.die();
             } else {
                 this.shot.setY(y);
@@ -310,10 +339,10 @@ public class Board extends JPanel {
             // Original(ERROR): if (x <= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
             // Si el alienígena llega al borde derecho del tablero y la dirección no es hacia la izquierda, cambia la dirección a la izquierda
             if (x>= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) { //CORRECCIÓN
-                
+            logger.info("Los aliens han llegado al borde derecho del tablero");
             //  direction = 0;//ERROR: Debería ser -1 (izquierda)
                 direction = -1; //CORRECCIÓN
-
+                logger.info("Se ha cambiado la direccion de los aliens a la izquierda (direccion= -1) en el eje X");
                 Iterator<Alien> i1 = this.aliens.iterator();
 
                 while (i1.hasNext()) {
@@ -321,12 +350,15 @@ public class Board extends JPanel {
                     Alien a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
+                logger.info("Los aliens bajan una posicion hacia abajo (eje Y)");
             }
 
            // Si el alienígena llega al borde izquierdo del tablero y la dirección no es hacia la derecha, cambia la dirección a la derecha 
            if(x<=Commons.BORDER_LEFT && direction != 1){
+                logger.info("Los aliens han llegado al borde izquierdo del tablero");
 
                 direction=1;
+                logger.info("Se ha cambiado la direccion de los aliens a la derecha (direccion= 1) en el eje X");
 
                 Iterator<Alien> i2 = this.aliens.iterator();
 
@@ -337,6 +369,7 @@ public class Board extends JPanel {
                     // Bajan los alienigenas una posición hacia abajo (eje Y)
                     a.setY(a.getY() + Commons.GO_DOWN); //CORRECCIÓN
                 }
+                logger.info("Los aliens bajan una posición hacia abajo (eje Y)");
             }
         }
 
@@ -351,8 +384,11 @@ public class Board extends JPanel {
                 int y = alien.getY();
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
+                    logger.info("Un alien ha llegado al suelo del tablero");
                     inGame = false;
+                    logger.info("Se ha actualizado el estado del juego a 'inGame = false'");
                     message = "Invasion!";
+                    logger.info("Se ha actualizado el mensaje de la interfaz a 'Invasion!'");
                 }
 
                 alien.act(direction);
@@ -374,9 +410,9 @@ public class Board extends JPanel {
 
             int shotB = generator.nextInt(15);
             Alien.Bomb bomb = alien.getBomb();
-
+ 
             if (shotB == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
-
+                
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
@@ -395,19 +431,24 @@ public class Board extends JPanel {
                         && bombX <= (playerX + Commons.PLAYER_WIDTH)
                         && bombY >= (playerY)
                         && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
+                    logger.info("El jugador ha sido alcanzado por una bomba");
 
                     var ii = new ImageIcon(explImg);
                     this.player.setImage(ii.getImage());
+                    logger.info("Se ha cambiado la imagen del jugador por la de la explosion");
                    /*  this.player.setDying(false);*/ //ERROR: Debería ser true
                     this.player.setDying(true); //CORRECCIÓN
                     bomb.setDestroyed(true);
+                    logger.info("Se ha actualizado el estado de la bomba a 'destruida = true' y el estado del jugador a 'dying = true'");
                 }
+                //Codigo añadido para eliminar bombas si les alcanza el disparo
                 if (shotX == bombX && shotY >= bombY && shotY <= (bombY + Commons.BOMB_HEIGHT)) {
+                    logger.info("El disparo ha alcanzado a una bomba");
                     bomb.setDestroyed(true);
                     bomb.setVisible(false);
                     this.shot.setDying(true);
                     this.shot.setVisible(false);
-                    
+                    logger.info("Se ha actualizado el estado de la bomba a 'destruida = true' y el estado del disparo a 'dying = true'");
                 }
             }
 
@@ -419,6 +460,7 @@ public class Board extends JPanel {
 
                     // Original: bomb.setDestroyed(false);
                     bomb.setDestroyed(true); //CORRECCIÓN
+                    logger.info("La bomba ha llegado al suelo y se ha destruido");
                 }
             }
         }

@@ -1,5 +1,6 @@
 {
     "java.configuration.maven.userSettings": "C:\\Program Files\\apache-maven-3.8.8\\conf\\settings.xml",
     "java.configuration.maven.globalSettings": "C:\\Program Files\\apache-maven-3.8.8\\conf\\settings.xml",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.debug.settings.onBuildFailureProceed": true
 }

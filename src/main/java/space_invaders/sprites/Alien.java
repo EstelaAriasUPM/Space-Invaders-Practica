@@ -2,9 +2,12 @@ package space_invaders.sprites;
 
 import main.Commons;
 
+import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 
 public class Alien extends Sprite {
+    Logger logger = Logger.getLogger(Alien.class.getName());
 
     private Bomb bomb;
 
@@ -16,6 +19,7 @@ public class Alien extends Sprite {
     public Alien(int x, int y) {
 
         initAlien(x, y);
+        logger.info("Alien creado correctamente en: x: " + getX() + " y: " + getY());
     }
     /**
      * Inicializa un nuevo alien y le asigna la imagen correspondiente en la interfaz
@@ -47,6 +51,7 @@ public class Alien extends Sprite {
         var ii = new ImageIcon(alienImg);
 
         setImage(ii.getImage());
+        logger.info("Imagen del alien asignada correctamente");
     }
 
     /**

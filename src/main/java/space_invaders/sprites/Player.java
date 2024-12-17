@@ -4,7 +4,10 @@ import main.Commons;
 
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 public class Player extends Sprite {
+
+    Logger logger = Logger.getLogger(Player.class.getName());
 
     private int width;
 
@@ -24,6 +27,7 @@ public class Player extends Sprite {
     public Player() {
 
         initPlayer();
+        logger.info("Jugador creado correctamente en: x: " + getX() + " y: " + getY());
     }
     private void initPlayer() { //Crea un nuevo jugador, le asigna su imagen en la interfaz y lo ubica en el centro de la pantalla
 
@@ -32,6 +36,7 @@ public class Player extends Sprite {
 
         width = ii.getImage().getWidth(null);
         setImage(ii.getImage());
+        logger.info("Imagen del jugador asignada correctamente");
 
         int START_X = 270;
         setX(START_X);
@@ -84,11 +89,13 @@ public class Player extends Sprite {
         if (key == KeyEvent.VK_LEFT) {
 
             dx = -2;
+            logger.info("Jugador se mueve a la izquierda");
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
             dx = 2;
+            logger.info("Jugador se mueve a la derecha");
         }
     }
     /**
@@ -112,8 +119,8 @@ public class Player extends Sprite {
             dx = 0;
         }
     }
-    //Tanto setX como setY no comprobaban los límites del tablero a la hora de colocar al jugador, lo que daba fallos
 
+    //Tanto setX como setY no comprobaban los límites del tablero a la hora de colocar al jugador, lo que daba fallos
     public void setX(int newX){//ESTA FUNCIÓN HA SIDO CAMBIADA
         if(newX < 0){
             newX=0;

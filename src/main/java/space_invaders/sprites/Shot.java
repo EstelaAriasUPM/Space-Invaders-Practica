@@ -1,10 +1,13 @@
 package space_invaders.sprites;
 
+import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 
 import main.Commons;
 
 public class Shot extends Sprite {
+	Logger	logger	= Logger.getLogger(Shot.class.getName());
 
 	public Shot() {
 	}
@@ -18,6 +21,7 @@ public class Shot extends Sprite {
 	public Shot(int x, int y) {
 
 		initShot(x, y);
+		logger.info("Disparo creado correctamente en: x: " + getX() + " y: " + getY());
 	}
 
 	/**
@@ -35,6 +39,7 @@ public class Shot extends Sprite {
 		var shotImg = "src/main/resources/images/shot.png";
 		var ii = new ImageIcon(shotImg);
 		setImage(ii.getImage());
+		logger.info("Imagen del disparo asignada correctamente");
 		int H_SPACE = 6;
 		int V_SPACE = 1;
 

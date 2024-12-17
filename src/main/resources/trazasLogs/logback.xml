@@ -1,0 +1,17 @@
+<configuration>
+    <!-- Define el nivel de log global -->
+    <root level="INFO">
+        <!-- Configura un FileAppender para escribir logs en XML -->
+        <appender name="XML_FILE" class="ch.qos.logback.core.FileAppender">
+            <file>src\main\resources\trazasLogs\application-log.xml</file> <!-- Ruta del archivo de logs -->
+            <append>true</append> <!-- Indica si se debe añadir o sobrescribir el archivo -->
+            <encoder>
+                <class>ch.qos.logback.classic.encoder.LayoutWrappingEncoder</class>
+                <layout class="ch.qos.logback.classic.html.XMLLayout" />
+            </encoder>
+        </appender>
+
+        <!-- Asocia el appender al root logger -->
+        <appender-ref ref="XML_FILE" />
+    </root>
+</configuration>

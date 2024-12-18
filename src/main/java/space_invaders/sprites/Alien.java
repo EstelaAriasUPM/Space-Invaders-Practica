@@ -30,7 +30,20 @@ public class Alien extends Sprite {
      * Si se introduce alguna coordenada negativa, se reemplazará por 0.
      * */
     private void initAlien(int x, int y) {
-
+        /*if (x> Commons.BOARD_WIDTH){
+            this.x = Commons.BOARD_WIDTH;
+        } if (x<0){
+            this.x = 0;
+        } if (y> Commons.BOARD_HEIGHT){
+            this.y = Commons.BOARD_HEIGHT;
+        } if (y<0){
+            this.y=0;
+        }
+        else
+        {
+            this.x = x;
+            this.y = y;
+        }----------CORRECCIÓN---------*/
         if (x> Commons.BOARD_WIDTH){
             this.x = Commons.BOARD_WIDTH;
         } else if (x<0){
@@ -60,8 +73,8 @@ public class Alien extends Sprite {
      * */
     //Cuanto le mueve? Hemos supuesto que el grosor de un alien
     public void act(int direction) {
-
-        this.x += direction;
+         // this.x = direction+Commons.ALIEN_WIDTH; ERROR
+        this.x += direction; //CORRECCIÓN
     }
 
     /**
@@ -97,7 +110,8 @@ public class Alien extends Sprite {
          * */
         private void initBomb(int x, int y) {
 
-            setDestroyed(true); //Rarete
+            //setDestroyed(true); ERROR
+            setDestroyed(true); // CORRECIÓN
 
             if (x<= Commons.BOARD_WIDTH && y<= Commons.BOARD_HEIGHT) {
                 this.x += x;

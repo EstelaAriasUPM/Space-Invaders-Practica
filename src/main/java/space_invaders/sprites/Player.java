@@ -27,8 +27,8 @@ public class Player extends Sprite {
     public Player() {
 
         initPlayer();
-        logger.info("Jugador creado correctamente en: x: " + getX() + " y: " + getY());
     }
+
     private void initPlayer() { //Crea un nuevo jugador, le asigna su imagen en la interfaz y lo ubica en el centro de la pantalla
 
         var playerImg = "src/main/resources/images/player.png";
@@ -43,6 +43,9 @@ public class Player extends Sprite {
 
         int START_Y = 280;
         setY(START_Y);
+
+        logger.info("Jugador creado correctamente en: x: " + getX() + " y: " + getY());
+
     }
 
 
@@ -59,6 +62,8 @@ public class Player extends Sprite {
         } else if (x + Commons.BORDER_RIGHT > Commons.BOARD_WIDTH){
             x = Commons.BOARD_WIDTH - Commons.BORDER_RIGHT;
         }
+
+        logger.info("Jugador se mueve a la posición: x: " + getX() + " y: " + getY());
 /*
         x += dx;
 

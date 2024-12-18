@@ -135,6 +135,8 @@ public class Board extends JPanel {
                 alien.setDying(false);
             }
         }
+        
+        logger.info("Se han dibujado los aliens en la interfaz");
     }
     /**
      * Genera gráficamente el jugador en la interfaz en las posiciones indicadas.
@@ -146,12 +148,14 @@ public class Board extends JPanel {
         if (this.player.isVisible()) {
 
             g.drawImage(this.player.getImage(), this.player.getX(), this.player.getY(), this);
+            logger.info("Se ha dibujado el jugador en la interfaz");
         }
 
         if (this.player.isDying()) {
 
             this.player.die();
             inGame = false;
+            logger.info("El jugador ha muerto y se ha actualizado el estado del juego a 'inGame = false'");
         }
     }
     /**
@@ -163,6 +167,7 @@ public class Board extends JPanel {
         if (this.shot.isVisible()) {
 
             g.drawImage(this.shot.getImage(), this.shot.getX(), this.shot.getY(), this);
+            logger.info("Se ha dibujado el disparo en la interfaz");
         }
     }
     /**
@@ -180,6 +185,8 @@ public class Board extends JPanel {
                 g.drawImage(b.getImage(), b.getX(), b.getY(), this);
             }
         }
+        logger.info("Se han dibujado las bombas en la interfaz");
+
     }
     /**
      * Actualiza los componentes de la interfaz después de que se ejecute una acción
@@ -210,6 +217,8 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
+             
+            logger.info("Se han dibujado todos los elementos en la interfaz");
 
         } else {
 
@@ -218,6 +227,8 @@ public class Board extends JPanel {
             }
 
             gameOver(g);
+
+            logger.info("Se ha generado el mensaje de fin de partida en la interfaz");
         }
 
         Toolkit.getDefaultToolkit().sync();

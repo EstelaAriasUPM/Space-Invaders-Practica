@@ -21,7 +21,6 @@ public class Shot extends Sprite {
 	public Shot(int x, int y) {
 
 		initShot(x, y);
-		logger.info("Disparo creado correctamente en: x: " + getX() + " y: " + getY());
 	}
 
 	/**
@@ -43,7 +42,7 @@ public class Shot extends Sprite {
 		int H_SPACE = 6;
 		int V_SPACE = 1;
 
-		// Arreglo de bug(iniciar shot en valores por fuera de tablero)
+		// Corrección (iniciar shot en valores por fuera de tablero)
 		if (x < 0) {
 			x = 0;
 		} else if (x > Commons.BOARD_WIDTH) {
@@ -58,5 +57,8 @@ public class Shot extends Sprite {
 		setX(x + H_SPACE);
 
 		setY(y - V_SPACE);
+
+		logger.info("Disparo creado correctamente en: x: " + getX() + " y: " + getY());
+
 	}
 }

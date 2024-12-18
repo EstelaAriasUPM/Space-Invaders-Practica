@@ -19,7 +19,7 @@ public class Alien extends Sprite {
     public Alien(int x, int y) {
 
         initAlien(x, y);
-        logger.info("Alien creado correctamente en: x: " + getX() + " y: " + getY());
+        
     }
     /**
      * Inicializa un nuevo alien y le asigna la imagen correspondiente en la interfaz
@@ -65,6 +65,8 @@ public class Alien extends Sprite {
 
         setImage(ii.getImage());
         logger.info("Imagen del alien asignada correctamente");
+
+        logger.info("Alien creado correctamente en: x: " + getX() + " y: " + getY());
     }
 
     /**
@@ -111,7 +113,7 @@ public class Alien extends Sprite {
         private void initBomb(int x, int y) {
 
             //setDestroyed(true); ERROR
-            setDestroyed(true); // CORRECIÓN
+            setDestroyed(false); // CORRECIÓN
 
             if (x<= Commons.BOARD_WIDTH && y<= Commons.BOARD_HEIGHT) {
                 this.x += x;

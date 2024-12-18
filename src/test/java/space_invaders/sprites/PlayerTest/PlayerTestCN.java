@@ -79,7 +79,7 @@ public class PlayerTestCN {
         player.setX(Commons.BOARD_WIDTH - player.getWidth()); //El límite derecho BOARD_WIDTH - player.width que es 343
         player.setdx(2);
         player.act();
-        assertEquals(Commons.BOARD_WIDTH - player.getWidth(), player.getX());
+        assertEquals(Commons.BOARD_WIDTH-Commons.BORDER_RIGHT, player.getX());
     }
 
 

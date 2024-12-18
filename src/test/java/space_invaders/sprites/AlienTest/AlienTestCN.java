@@ -2,7 +2,6 @@ package space_invaders.sprites.AlienTest;
 
 import main.Commons;
 import space_invaders.sprites.Alien;
-import space_invaders.sprites.Alien.Bomb;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,7 +83,7 @@ public class AlienTestCN {
         assertNotNull(bomb);
         assertEquals(0, bomb.getX());
         assertEquals(0, bomb.getY());
-        assertTrue(bomb.isDestroyed());
+        assertFalse(bomb.isDestroyed());
     }
 
     @Test
@@ -95,7 +94,7 @@ public class AlienTestCN {
         assertNotNull(bomb);
         assertEquals(358, bomb.getX());
         assertEquals(350, bomb.getY());
-        assertTrue(bomb.isDestroyed());
+        assertFalse(bomb.isDestroyed());
     }
 
 }

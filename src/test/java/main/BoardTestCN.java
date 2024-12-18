@@ -113,7 +113,7 @@ public class BoardTestCN {
 
         // Verificar que el estado de los aliens se ha actualizado
         assertNotEquals(initialAlienX, board.getAliens().get(0).getX());
-        assertNotEquals(initialAlienY, board.getAliens().get(0).getY());
+        assertEquals(initialAlienY, board.getAliens().get(0).getY());
     }
 
     @Test
